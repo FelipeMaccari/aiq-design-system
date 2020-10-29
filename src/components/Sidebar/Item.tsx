@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import styled, { css } from 'styled-components'
-
 import { MdExpandMore, MdExpandLess } from 'react-icons/md'
 
 import { Text } from '../Text'
@@ -17,6 +16,7 @@ interface ItemProps {
   item: any
   sidebarOpened: boolean
   heightScrolledToTop?: number
+  onClose?: () => void
 }
 
 interface ItemStyledProps {
@@ -62,19 +62,27 @@ const ItemStyled = styled.li<ItemStyledProps>`
   }
 `
 
-const LinkStyled = styled(Link)`
+const LinkStyled = styled(Flex)`
   padding: 16px 22px;
   display: flex;
   flex-direction: row;
+
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 export const Item: React.FC<ItemProps> = ({
   item,
   sidebarOpened = false,
-  heightScrolledToTop
+  heightScrolledToTop,
+  onClose = () => {
+    // do nothing
+  }
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const location = useLocation()
+  const history = useHistory()
 
   function computeBadgeAllItens(item) {
     let value = 0
@@ -139,14 +147,26 @@ export const Item: React.FC<ItemProps> = ({
           alignItems='center'
           justifyContent='space-between'
           padding='16px 22px'
-          onClick={item.callback}
+          onClick={() => {
+            onClose()
+            item.callback()
+          }}
         >
           {children}
         </Flex>
       )
     }
     return (
-      <LinkStyled variant={item.type ? item.type : 'internal'} href={item.href}>
+      <LinkStyled
+        onClick={() => {
+          onClose()
+          if (item.type === 'external') {
+            window.location = item.href
+          } else {
+            history.push(item.href)
+          }
+        }}
+      >
         {children}
       </LinkStyled>
     )
@@ -202,6 +222,7 @@ export const Item: React.FC<ItemProps> = ({
       </ItemWrapper>
 
       <SubItens
+        onClose={onClose}
         item={item}
         heightScrolledToTop={heightScrolledToTop}
         sidebarOpened={sidebarOpened}
@@ -214,5 +235,6 @@ export const Item: React.FC<ItemProps> = ({
 Item.propTypes = {
   item: PropTypes.any.isRequired,
   sidebarOpened: PropTypes.bool.isRequired,
-  heightScrolledToTop: PropTypes.number
+  heightScrolledToTop: PropTypes.number,
+  onClose: PropTypes.func
 }

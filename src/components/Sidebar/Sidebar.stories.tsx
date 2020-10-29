@@ -224,6 +224,7 @@ export const Basic: React.FC = () => {
         <Sidebar
           header={<Header />}
           opened={boolean('opened', true)}
+          onClose={() => console.log('onClose')}
           data={sidebarData}
         />
         <h1>test</h1>

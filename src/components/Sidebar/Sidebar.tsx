@@ -9,6 +9,7 @@ import { Item } from './Item'
 export interface Props {
   data: { itens: any }
   opened?: boolean
+  onClose?: () => void
   header?: any
 }
 
@@ -53,6 +54,7 @@ export const Sidebar: React.FC<Props> = ({
   data,
   header,
   opened = false,
+  onClose,
   ...props
 }) => {
   const [heightScrolledToTop, setHeightScrolledToTop] = useState(0)
@@ -86,6 +88,7 @@ export const Sidebar: React.FC<Props> = ({
                 heightScrolledToTop={heightScrolledToTop}
                 sidebarOpened={opened}
                 key={index}
+                onClose={onClose}
                 item={item}
               />
             ))}
@@ -99,5 +102,6 @@ export const Sidebar: React.FC<Props> = ({
 Sidebar.propTypes = {
   data: PropTypes.any.isRequired,
   opened: PropTypes.bool,
-  header: PropTypes.any
+  header: PropTypes.any,
+  onClose: PropTypes.func
 }

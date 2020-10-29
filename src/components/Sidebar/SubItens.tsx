@@ -9,6 +9,7 @@ import { Badge } from '../Badge'
 
 interface Props extends FlexProps {
   item?: any
+  onClose?: () => void
   itemOpened?: boolean
   distanceTop?: number
   sidebarOpened?: boolean
@@ -90,24 +91,19 @@ const SubItensStyled = styled(Flex)<Props>`
             border-bottom-right-radius: 4px;
             box-shadow: 2px 3px 4px #00000029;
 
-            ${
-              typeSubmenu === 'default' &&
-              `
-              margin-top: calc((50px + ${heightScrolledToTop}px) * -1);
+            ${typeSubmenu === 'default' &&
             `
-            }
+              margin-top: calc((50px + ${heightScrolledToTop}px) * -1);
+            `}
 
-            ${
-              typeSubmenu === 'bottom' &&
-              `
+            ${typeSubmenu === 'bottom' &&
+            `
               position: absolute;
               top: ${distanceTop}px;
-            `
-            }
+            `}
 
-            ${
-              typeSubmenu === 'top' &&
-              `
+            ${typeSubmenu === 'top' &&
+            `
               position: absolute;
               top: 0px;
               height: 100vh;
@@ -132,8 +128,7 @@ const SubItensStyled = styled(Flex)<Props>`
                 border-radius: 10px;
                 background: ${theme.colors.primaryLight};
               }
-            `
-            }
+            `}
           `
         }
 
@@ -148,6 +143,7 @@ export const SubItens: React.FC<Props> = ({
   item,
   sidebarOpened,
   itemOpened,
+  onClose,
   heightScrolledToTop = 0
 }) => {
   const [ref, setRef] = useState<HTMLDivElement | null>(null)
@@ -227,5 +223,6 @@ SubItens.propTypes = {
   item: PropTypes.any,
   itemOpened: PropTypes.bool,
   sidebarOpened: PropTypes.bool,
-  heightScrolledToTop: PropTypes.number
+  heightScrolledToTop: PropTypes.number,
+  onClose: PropTypes.func
 }
