@@ -241,7 +241,7 @@ export const Button: React.FC<Props> = ({
         <Icon data-testid='button-prefix' cursor='pointer' mr={5}>
           {prefix}
         </Icon>
-        <Text fontSize='medium'>{children}</Text>
+        <Text fontSize='large'>{children}</Text>
       </ButtonStyled>
     )
   }
@@ -249,7 +249,8 @@ export const Button: React.FC<Props> = ({
   if (sufix) {
     return (
       <ButtonStyled className={getClassName()} type={type} {...props}>
-        <Text fontSize='medium'>{children}</Text>
+        <Text fontSize='large'>{children}</Text>
+
         <Icon data-testid='button-sufix' cursor='pointer' ml={5}>
           {sufix}
         </Icon>
@@ -259,7 +260,7 @@ export const Button: React.FC<Props> = ({
 
   return (
     <ButtonStyled type={type} className={getClassName()} {...props}>
-      <Text fontSize='medium'>{children}</Text>
+      <Text fontSize='large'>{children}</Text>
     </ButtonStyled>
   )
 }
